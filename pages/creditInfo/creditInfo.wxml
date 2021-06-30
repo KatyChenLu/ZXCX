@@ -1,0 +1,338 @@
+<!--pages/creditInfo/creditInfo.wxml-->
+<view class="bg">
+  <view class="col_0 txt_ctr bg_col_0 top_time">报告查询时间：2021年6月29日13:53:50</view>
+  <!-- 基本信息 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">基本信息</view>
+    <view class="nav_info">
+      <view class="info_list">
+          <view class="info_noml">姓名</view>
+          <view class="info1">{{infoData.base_info.name}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml">手机号</view>
+          <view class="info1">{{infoData.base_info.phone}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml">身份证号</view>
+          <view class="info1">{{infoData.base_info.ident_number}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml">报告编号</view>
+          <view class="info1">{{resp_order}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 信誉分 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">信誉分</view>
+    <view class="nav_info">
+      <view class="fontWght">您的信誉风险分:  <text class="col_2 fengxianNub">{{infoData.multiple_score}}</text> </view>
+      <image src="/images/fengxiantip.png" class="fengxiantip" mode="widthFix"></image>
+    </view>
+  </view>
+
+  <!-- 信用分 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">信用分</view>
+    <view class="nav_info">
+      <view class="info_flex">
+        <view class="info_noml">类型标签：</view>
+        <view class="col_2 fontWght">{{infoData.verify_recomment}}</view>
+      </view>
+      <view class="info_noml matp16">命中风险标注：</view>
+      <view class="col_2 fontWght ">
+        <block wx:for="{{risk_list_check_Arr}}" wx:for-index='index' wx:for-item='item'>
+          <block wx:for="{{infoData.risk_list_check}}" wx:for-index='key' wx:for-item='value'>
+            <view class="matp16" wx:if="{{value=='命中'&&key==item.risk_index}}">{{item.risk_info}}</view>
+          </block>
+        </block>
+       
+      </view>
+    </view>
+  </view>
+  <!-- 机构查询记录 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">机构查询记录(personal_loan_demand)</view>
+    <view class="nav_info">
+      <view class="info_flex">
+        <view class="chaxunjilu_btn txt_ctr {{choosejigouchaxun=='wx_datad7'?'jigouchaxunOn':''}}" bindtap="jigouchaxunTap" data-index="wx_datad7">近7天</view>
+        <view class="chaxunjilu_btn txt_ctr {{choosejigouchaxun=='wx_datam1'?'jigouchaxunOn':''}}" bindtap="jigouchaxunTap" data-index="wx_datam1">近30天</view>
+        <view class="chaxunjilu_btn txt_ctr {{choosejigouchaxun=='wx_datam3'?'jigouchaxunOn':''}}" bindtap="jigouchaxunTap" data-index="wx_datam3">近60天</view>
+      </view>
+      <view class="jigouchaxun_detail_box">
+        <view class="info_list">
+          <view class="fontWght">机构名称</view>
+          <view class="fontWght info1">查询次数</view>
+      </view>
+        <view class="info_list">
+          <view class="info_noml flex1">一般消费分期平台</view>
+          <view class=" info2 txt_ctr fontWght">{{choosejigouchaxun_Arr.common_amortize_platform}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">信用卡</view>
+          <view class=" info2 txt_ctr fontWght">{{choosejigouchaxun_Arr.credit_card}}</view>
+      </view>
+        <view class="info_list">
+          <view class="info_noml flex1">大型消费金融公司</view>
+          <view class=" info2 txt_ctr fontWght">{{choosejigouchaxun_Arr.large_finance_platform}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">其它类型贷款公司</view>
+          <view class=" info2 txt_ctr fontWght">{{choosejigouchaxun_Arr.other_platform}}</view>
+      </view>
+        <view class="info_list">
+          <view class="info_noml flex1">P2P平台</view>
+          <view class=" info2 txt_ctr fontWght">{{choosejigouchaxun_Arr.p2p_platform}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">小额贷款公司</view>
+          <view class=" info2 txt_ctr fontWght">{{choosejigouchaxun_Arr.petty_loan_platform}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">申请查询总数</view>
+          <view class=" info2 txt_ctr fontWght">{{choosejigouchaxun_Arr.platform_total}}</view>
+      </view>
+
+      </view>
+  
+    </view>
+  </view>
+
+  <!-- 历史借贷行为 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">历史借贷行为(personal_loan_s)</view>
+    <view class="nav_info">
+      <view class="info_flex">
+        <!-- <view class="chaxunjilu_btn txt_ctr {{chooselishijiedai=='apply_time1'?'jigouchaxunOn':''}}"  bindtap="lishijiedaiTap" data-index="apply_time1">近1个月</view>
+        <view class="chaxunjilu_btn txt_ctr {{chooselishijiedai=='apply_time3'?'jigouchaxunOn':''}}"  bindtap="lishijiedaiTap" data-index="apply_time3">近3个月</view>
+        <view class="chaxunjilu_btn txt_ctr {{chooselishijiedai=='apply_time6'?'jigouchaxunOn':''}}"  bindtap="lishijiedaiTap" data-index="apply_time6">近6个月</view>
+        <view class="chaxunjilu_btn txt_ctr {{chooselishijiedai=='apply_mechanism_number'?'jigouchaxunOn':''}}"  bindtap="lishijiedaiTap" data-index="apply_mechanism_number">近12个月</view> -->
+      </view>
+      <view class="wid550">
+        <view class="info_list">
+          <view class="fontWght">机构类型</view>
+          <view class="fontWght info1">申请个数</view>
+      </view>
+        <view class="info_list">
+          <view class="info_noml flex1">消费分期类</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_s.consumer_apply_mechanism_number}}</view>
+      </view>
+        <view class="info_list">
+          <view class="info_noml flex1">网络贷款类</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_s.network_loan_apply_mechanis_mnumber}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">申请总数</view>
+          <view class=" info2 txt_ctr fontWght"></view>
+      </view>
+      <view class="line"></view>
+      <view class="info_list">
+          <view class="info_noml flex1">近1个月申请次数</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_s.apply_time1}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">近3个月申请次数</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_s.apply_time3}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">近6个月申请次数</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_s.apply_time6}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1">近12个月申请机构总数</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_s.apply_mechanism_number}}</view>
+      </view>
+
+      <view class="info_list">
+          <view class="info_noml flex1">最后一次申请日期</view>
+          <view class="info1 info_noml">{{infoData.personal_loan_s.last_apply_time}}</view>
+      </view>
+      <view class="info_list">
+          <view class="info_noml flex1 ">距离最近一次申请已有（天）</view>
+          <view class=" info_noml">{{infoData.personal_loan_s.distance_now_days}}</view>
+      </view>
+
+      </view>
+  
+    </view>
+  </view>
+
+
+  <!-- 近12个月放款机构查询 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">近12个月放款机构查询(personal_loan_f )</view>
+    <view class="nav_info">
+      <!-- <view class="info_flex">
+        <view class="chaxunjilu_btn txt_ctr {{choosejigouchaxun==0?'jigouchaxunOn':''}}">近1个月</view>
+        <view class="chaxunjilu_btn txt_ctr {{choosejigouchaxun==1?'jigouchaxunOn':''}}">近3个月</view>
+        <view class="chaxunjilu_btn txt_ctr {{choosejigouchaxun==2?'jigouchaxunOn':''}}">近6个月</view>
+        <view class="chaxunjilu_btn txt_ctr {{choosejigouchaxun==2?'jigouchaxunOn':''}}">近12个月</view>
+      </view> -->
+      <view class="wid550">
+        <view class="info_list">
+          <view class="fontWght">机构类型</view>
+          <view class="fontWght info1">放款次数</view>
+        </view>
+        <view class="info_list">
+          <view class="info_noml flex1">消费分期类</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_f.cflenders}}</view>
+        </view>
+        <view class="info_list">
+          <view class="info_noml flex1">网络贷款类</view>
+          <view class=" info2 txt_ctr fontWght">{{infoData.personal_loan_f.nllenders}}</view>
+        </view>
+        <view class="info_list">
+          <view class="info_noml flex1">申请总数</view>
+          <view class=" info2 txt_ctr fontWght"></view>
+        </view>
+      </view>
+      <view class="line"></view>
+
+      <view class="info_list">
+        <view class="info_noml flex1">近1个月放款次数</view>
+        <view class="info1 info_noml">{{infoData.personal_loan_f.lend_number1}}</view>
+      </view>
+      <view class="info_list">
+        <view class="info_noml flex1">近3个月放款次数</view>
+        <view class="info1 info_noml">{{infoData.personal_loan_f.lend_number3}}</view>
+      </view>
+      <view class="info_list">
+        <view class="info_noml flex1">近6个月放款次数</view>
+        <view class="info1 info_noml">{{infoData.personal_loan_f.lend_number6}}</view>
+      </view>
+      <view class="info_list">
+        <view class="info_noml flex1">近12个月放款机构总数</view>
+        <view class="info1 info_noml">{{infoData.personal_loan_f.lenders}}</view>
+      </view>
+      <view class="info_list">
+        <view class="info_noml flex1">最后一次放款日期</view>
+        <view class="info1 info_noml">{{infoData.personal_loan_f.lend_time}}</view>
+      </view>
+      <view class="info_list">
+        <view class="info_noml flex1">贷款时长</view>
+        <view class="info1 info_noml">{{infoData.personal_loan_f.loanday}}</view>
+      </view>      
+      <view class="info_list">
+        <view class="info_noml flex1 ">距离最近一次放款已有（天）</view>
+        <view class=" info_noml">{{infoData.personal_loan_f.distance_now_days}}</view>
+      </view>
+      <view class="line"></view>
+      <view class="info_list">
+        <view class="info_noml flex1 "></view>
+        <view class="  flex1 fontWght txt_ctr">近1个月</view>
+        <view class="  flex1 fontWght txt_ctr">近12个月</view>
+      </view>
+      <view class="info_list">
+        <view class="info_noml flex1 ">履约次数</view>
+        <view class="  flex1 txt_ctr">{{infoData.personal_loan_f.repay_succ1}}</view>
+        <view class="  flex1 txt_ctr">{{infoData.personal_loan_f.repay_succ12}}</view>
+      </view>
+      <view class="info_list">
+        <view class="info_noml flex1 ">还款异常次数</view>
+        <view class="  flex1 txt_ctr">{{infoData.personal_loan_f.repay_fail1}}</view>
+        <view class="  flex1 txt_ctr">{{infoData.personal_loan_f.repay_fail12}}</view>
+      </view>
+
+    </view>
+  </view>
+
+    <!-- 历史逾期记录 -->
+    <view class="nav_box">
+    <view class="nav_tle col_1">历史逾期记录(personal_overdue_history)</view>
+    <view class="nav_info">
+      <view class="fontWght">近12个月逾期机构查询</view>
+      <view class="info_list">
+          <view class="info_noml">近6个月逾期机构次数</view>
+          <view class="info1 fontWght">{{infoData.personal_overdue_history.overdue_mechanism_number}}</view>
+        </view>
+      <view class="info_list">
+          <view class="info_noml">近6个月逾期总次数</view>
+          <view class="info1 fontWght">{{infoData.personal_overdue_history.overdue_total_counts}}</view>
+        </view>
+      <view class="info_list">
+          <view class="info_noml">近6个月未结清逾期次数</view>
+          <view class="info1 fontWght">{{infoData.personal_overdue_history.uncleared_counts}}</view>
+        </view>
+      <view class="info_list">
+          <view class="info_noml">近6个月逾期总金额（元）</view>
+          <view class="info1 fontWght">{{infoData.personal_overdue_history.overdue_total_money}}</view>
+        </view>
+
+        <view class="line"></view>
+        <block wx:if="{{infoData.personal_overdue_history.data_list.length>0}}">
+          <view class="scl_box txt_ctr">
+          <view class="" >
+              <view class="info_noml">序号</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.personal_overdue_history.data_list}}">{{index}}</view>
+          </view>
+          <view class="male50">
+              <view class="info_noml">逾期金额区间（元）</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.personal_overdue_history.data_list}}">{{item.overdue_money}}</view>
+          </view>
+          <view class="male50">
+              <view class="info_noml">逾期时间</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.personal_overdue_history.data_list}}">{{item.overdue_time}}</view>
+          </view>
+          <view class="male50">
+              <view class="info_noml">是否结清</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.personal_overdue_history.data_list}}">{{item.settlement}}</view>
+          </view>
+        </view>
+        </block>
+        
+
+    </view>
+  </view>
+
+  <!-- 关联风险检测 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">关联风险检测(relevance_risk_check)</view>
+    <view class="nav_info">
+      <view class="info_list">
+          <view class="info_noml">3个月身份证关联手机号次数</view>
+          <view class="info1 fontWght">{{infoData.relevance_risk_check.ident_to_phone_counts}}</view>
+        </view>
+      <view class="info_list">
+          <view class="info_noml">3个月手机号关联身份证次数</view>
+          <view class="info1 fontWght">{{infoData.relevance_risk_check.phone_to_ident_counts}}</view>
+        </view>
+ 
+    </view>
+  </view>
+
+  <!-- 法院风险信息 -->
+  <view class="nav_box">
+    <view class="nav_tle col_1">法院风险信息(court_risk_info_list)</view>
+    <view class="nav_info">
+     
+      <block wx:if="{{infoData.court_risk_info_list .length>0}}">
+          <view class="scl_box txt_ctr">
+          <view class="" >
+              <view class="info_noml">序号</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.court_risk_info_list}}">{{index}}</view>
+          </view>
+          <view class="male50">
+              <view class="info_noml">审结日期</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.court_risk_info_list}}">{{item.sort_time_string}}</view>
+          </view>
+          <view class="male50">
+              <view class="info_noml">类型</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.court_risk_info_list}}">{{item.data_type}}</view>
+          </view>
+          <view class="male50">
+              <view class="info_noml">摘要说明</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.court_risk_info_list}}">{{item.summary}}</view>
+          </view>
+          <view class="male50">
+              <view class="info_noml">匹配度</view>
+              <view class="fontWght txt_ctr matp16" wx:for="{{infoData.court_risk_info_list}}">{{item.compatibility}}</view>
+          </view>
+        </view>
+        </block>
+ 
+    </view>
+  </view>
+
+
+</view>

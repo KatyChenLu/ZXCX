@@ -1,0 +1,24 @@
+<!--pages/credit/creditIndex.wxml-->
+
+<view class='nav_box' style='margin-top:30rpx;margin-bottom:{{iPhone?"208rpx;":"140rpx;"}}'>
+  <view class='temp_box'>
+    <view class='temp_left'>姓名：</view>
+    <view class='temp_right'>
+      <input type='number' class='input' bindinput='bind_input' data-index='11' placeholder='请输入姓名'></input>
+    </view>
+  </view>
+  <view class='temp_box'>
+    <view class='temp_left'>身份证：</view>
+    <view class='temp_right'>
+      <input class='input' bindinput='bind_input' data-index='12' placeholder='请输入身份证号码'></input>
+    </view>
+  </view>
+  <view class='temp_box'>
+    <view class='temp_left'>手机号：</view>
+    <view class='temp_right'>
+      <input class='input' bindinput='bind_input' data-index='13' placeholder='请输入手机号码'></input>
+    </view>
+  </view>
+</view>
+<view class="place_view"></view>
+<button class='btn' bindtap='submit' >一键查询</button>

@@ -1,0 +1,30 @@
+function priceFixed(price) {
+  return parseFloat(parseFloat(price).toFixed(3))
+} 
+
+function getImgUrl(uploadUrl, img_url, width, height) {
+  // console.log(uploadUrl, img_url);
+  if (!img_url) return;
+  if (img_url && img_url.indexOf("http") == -1) {
+    img_url = uploadUrl + img_url;
+  }else{
+    return img_url
+  }
+  // console.log(img_url)
+  var i = img_url.lastIndexOf('.');
+  var tmp = '';
+  if (width != '' && width != null) {
+    if (height != '' && height != null) {
+      tmp = "_" + width * 1 + '*' + height * 1;
+    } else {
+      tmp = '_' + width * 1;
+    }
+    img_url = img_url.substring(0, i) + tmp + img_url.substring(i, img_url.length);
+  }
+  return img_url
+}
+
+module.exports = {
+  priceFixed: priceFixed,
+  getImgUrl: getImgUrl
+}
