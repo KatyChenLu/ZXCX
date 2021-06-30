@@ -157,8 +157,7 @@
   
     </view>
   </view>
-
-
+  
   <!-- 近12个月放款机构查询 -->
   <view class="nav_box">
     <view class="nav_tle col_1">近12个月放款机构查询(personal_loan_f )</view>
