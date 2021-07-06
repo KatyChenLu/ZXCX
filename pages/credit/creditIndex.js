@@ -8,6 +8,7 @@ Page({
    */
   data: {
     uploadUrl: Url.uploadUrl,
+    agreeStatu:1,
     payMap:{
       "timeStamp": '1624938556',
       "package": "prepay_id=wx291147493689681bc5c604ca5ae5160000",
@@ -39,8 +40,8 @@ Page({
   submit: function (e) {
     var that = this;
     //0个人   1单位
-      if (!that.data.name || !that.data.idNumb || !that.data.phoneNumb) {
-        var msg = !that.data.name ? "请输入姓名" : !that.data.idNumb ? "请输入身份证" :!that.data.phoneNumb ? "请输入手机号": "";
+      if (!that.data.name || !that.data.idNumb || !that.data.phoneNumb||!that.data.agreeStatu) {
+        var msg = !that.data.name ? "请输入姓名" : !that.data.idNumb ? "请输入身份证" :!that.data.phoneNumb ? "请输入手机号": !that.data.agreeStatu?"请先阅读并同意协议":"";
         toast(msg, 'none');
         return;
       }
@@ -82,7 +83,6 @@ Page({
       package: that.data.payMap.package,
       signType: that.data.payMap.signType,
       paySign: that.data.payMap.paySign,
-      // paySign: that.data.paySign,
       success(res) {
         wx.navigateTo({
           url: '/pages/creditInfo/creditInfo',
@@ -90,12 +90,24 @@ Page({
       },
       fail(err) {
         console.log('微信调取失败---', err)
-        wx.navigateTo({
-          url: '/pages/creditInfo/creditInfo',
-        })
+        // wx.navigateTo({
+        //   url: '/pages/creditInfo/creditInfo',
+        // })
       }
     })
   },
+  //去往协议界面
+  goAgree() {
+    wx.navigateTo({
+      url: '/pages/agree/agree'
+    })
+  },
+    // 同意服务协议
+    agree() {
+      this.setData({
+        agreeStatu: !this.data.agreeStatu
+      })
+    },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -119,7 +131,7 @@ Page({
     } else {
       //未登录的先登录
       wx.navigateTo({
-        url: '/pages/login/login',
+        url: '/pages/index/index',
       })
     }
   },

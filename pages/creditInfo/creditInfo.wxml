@@ -1,6 +1,6 @@
 <!--pages/creditInfo/creditInfo.wxml-->
 <view class="bg">
-  <view class="col_0 txt_ctr bg_col_0 top_time">报告查询时间：2021年6月29日13:53:50</view>
+  <view class="col_0 txt_ctr bg_col_0 top_time">报告查询时间：{{timestamp}}</view>
   <!-- 基本信息 -->
   <view class="nav_box">
     <view class="nav_tle col_1">基本信息</view>

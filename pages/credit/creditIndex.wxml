@@ -1,24 +1,38 @@
 <!--pages/credit/creditIndex.wxml-->
-
-<view class='nav_box' style='margin-top:30rpx;margin-bottom:{{iPhone?"208rpx;":"140rpx;"}}'>
-  <view class='temp_box'>
-    <view class='temp_left'>姓名：</view>
-    <view class='temp_right'>
-      <input type='number' class='input' bindinput='bind_input' data-index='11' placeholder='请输入姓名'></input>
-    </view>
-  </view>
-  <view class='temp_box'>
-    <view class='temp_left'>身份证：</view>
-    <view class='temp_right'>
-      <input class='input' bindinput='bind_input' data-index='12' placeholder='请输入身份证号码'></input>
-    </view>
-  </view>
-  <view class='temp_box'>
-    <view class='temp_left'>手机号：</view>
-    <view class='temp_right'>
-      <input class='input' bindinput='bind_input' data-index='13' placeholder='请输入手机号码'></input>
-    </view>
+<view class="bg">
+  <view class='back'>
+    <image class='back_img' mode='widthFix' src='/images/indexBg.jpg'>
+    </image>
   </view>
 </view>
-<view class="place_view"></view>
-<button class='btn' bindtap='submit' >一键查询</button>
+<view class='con_view nav_box' >
+  <view class='temp_box'>
+    <view class='temp_left'>姓名</view>
+    <view class='temp_right'>
+      <input class='input' bindinput='bind_input' data-index='11' placeholder='请输入姓名'
+        placeholder-class='placeholder'></input>
+    </view>
+  </view>
+  <view class='temp_box'>
+    <view class='temp_left'>身份证</view>
+    <view class='temp_right'>
+      <input type='idcard'  class='input' bindinput='bind_input' data-index='12' placeholder='请输入身份证号码'
+        placeholder-class='placeholder'></input>
+    </view>
+  </view>
+  <view class='temp_box'>
+    <view class='temp_left'>手机号</view>
+    <view class='temp_right'>
+      <input type='number'  class='input' bindinput='bind_input' data-index='13' placeholder='请输入手机号码'
+        placeholder-class='placeholder'></input>
+    </view>
+  </view>
+  <view class="standardBox  " bindtap="agree">
+  <view class="agreeBorder">
+    <view class="agreeBox" wx:if="{{agreeStatu}}"></view>
+  </view>
+  <text class="agreeRemind">我已阅读并同意</text>
+  <text class="standard" catchtap="goAgree">《报告查询协议》</text>
+</view>
+  <button class='btn' bindtap='submit'>一键查询</button>
+</view>

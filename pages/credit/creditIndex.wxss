@@ -6,19 +6,31 @@
   font-size: 28rpx;
 }
 .nav_box .temp_box:nth-child(1){
-  border-top: 2rpx solid rgba(5,5,5,0.2);
+  /* border-top: 2rpx solid rgba(5,5,5,0.2); */
 }
 .temp_box{
   background: #fff;
   display: flex;
   align-items: center;
   height: 100rpx;
-  padding: 0rpx 30rpx;
-  border-bottom: 2rpx solid rgba(5,5,5,0.2);
+  padding: 0rpx 38rpx;
+  /* border-bottom: 2rpx solid rgba(5,5,5,0.2); */
+  margin-top: 26rpx;
 }
 .temp_left{
   font-size: 32rpx;
-  width: 200rpx;
+  line-height: 0rpx;
+  width: 74rpx;
+  flex:1;
+  font-weight: 700;
+  text-align: justify;
+  margin-right: 20rpx;
+}
+
+.temp_left::after{
+  width: 100%;
+  display: inline-block;
+  content: '';  
 }
 .temp_right{
   flex: 1;
@@ -36,22 +48,23 @@
   height: 20rpx;
 }
 .input{
-  width: 100%;
-  height: 100rpx;
+  background-color: #f6f6f6;
+  width: 490rpx;
+  height: 80rpx;
+  border-radius: 10rpx;
+  
 }
 .btn{
-  position: fixed;
-  z-index: 1111;
-  width: 100%;
-  left: 0rpx;
+  margin-top: 66rpx;
+  width: 638rpx;
+  height: 100rpx;
   color: #fff;
-  padding: 0rpx;
-  margin: 0rpx;
-  background: #F03D37;
-  border-radius: 0rpx;
+  /* padding: 0rpx;
+  margin: 0rpx; */
+  background: #4d51f0;
+  /* border-radius: 0rpx; */
   font-size: 32rpx;
-  height: 80rpx;
-  line-height: 80rpx;
+  line-height: 100rpx;
 }
 .btn::after{
   border: none;
@@ -59,4 +72,71 @@
 .place_view{
   width: 100%;
   height: 100rpx;
+}
+.standardBox{
+  margin-top: 28rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 30rpx;
+  /* justify-content: center; */
+}
+.agreeBorder{
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 12rpx;
+  border: 2rpx solid #9e9e9e;
+  margin-right: 13rpx;
+}
+.agreeBox{
+  width: 16rpx;
+  height: 16rpx;
+  background: green;
+  margin: 0 auto;
+  border-radius: 9rpx;
+  margin-top: 2rpx;
+  margin-left: 2rpx;
+}
+.agreeRemind{
+  color: #9e9e9e;
+  /* font-size: 24rpx; */
+}
+.standard{
+  color:#413e95;
+  font-size: 24rpx;
+  font-weight: lighter;
+}
+.back {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.back_img {
+  width: 100%;
+  height: 100%;
+}
+.con_view {
+  width: 100%;
+  height: 700rpx;
+  position: absolute;
+  top: 350rpx;
+  left: 0rpx;
+  padding: 0 34rpx;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.placeholder{
+  color: #bbbbbb;
+  margin-left: 20rpx;
+}
+.flexCenter{
+  display: flex;
+  justify-content: center;
+}
+.flexAlCenter{
+  width: 100%;
+  display: flex;
+  align-items: center;
 }

@@ -1,10 +1,10 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/logs/logs",
     "pages/credit/creditIndex",
+    "pages/index/index",
     "pages/login/login",
-    "pages/creditInfo/creditInfo"
+    "pages/creditInfo/creditInfo",
+    "pages/agree/agree"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -12,6 +12,5 @@
     "navigationBarTitleText": "Weixin",
     "navigationBarTextStyle":"black"
   },
-  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }
