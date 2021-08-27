@@ -81,11 +81,12 @@
   /* justify-content: center; */
 }
 .agreeBorder{
-  width: 20rpx;
-  height: 20rpx;
+  width: 22rpx;
+  height: 22rpx;
   border-radius: 12rpx;
   border: 2rpx solid #9e9e9e;
   margin-right: 13rpx;
+  box-sizing: border-box;
 }
 .agreeBox{
   width: 16rpx;

@@ -8,8 +8,8 @@ Page({
    */
   data: {
     uploadUrl: Url.uploadUrl,
-    agreeStatu:1,
-    payMap:{
+    agreeStatu: 1,
+    payMap: {
       "timeStamp": '1624938556',
       "package": "prepay_id=wx291147493689681bc5c604ca5ae5160000",
       "paySign": "OyRWNaOe7oeNNccSwhjdIVAvNVdOo6sZLEAukGvsC23sFisg8aGveK7O0tpFfj+rwoGMA1QjxAhXWbfW/OD8ASC7t6yqNOljacOesm6q1RluhmwXWNx6NupxvZGo4x+egRKKitm0qF/SsNTfIHM72OjtCx4AxWfmleJ0MMiZ8HnE10wweFd6XMhSb6kHlfG32tNYmnuoeVmwEWMyPryyVsA3e2YUJxUDoZenT8fio9U7T4nWvAx7VqI34OoFnu160h4Yp/7/3+chm6sRF4IOJnEY1UgXAxF3ZQbMhqC9X5cNKGVcNttmePTQmpSbCDMsPO/wJcHLHiaXbJTTfQDbRA==",
@@ -29,47 +29,65 @@ Page({
     var that = this;
     var index = e.currentTarget.dataset.index;
     var val = e.detail.value;
-     if (index == 11) {  //name
-      that.setData({ name: val });
-    } else if (index == 12) {  //idnumb
-      that.setData({ idNumb: val })
-    }else if (index == 13) {  //phonenumb
-      that.setData({ phoneNumb: val })
+    if (index == 11) { //name
+      that.setData({
+        name: val
+      });
+    } else if (index == 12) { //idnumb
+      that.setData({
+        idNumb: val
+      })
+    } else if (index == 13) { //phonenumb
+      that.setData({
+        phoneNumb: val
+      })
     }
   },
   submit: function (e) {
     var that = this;
-    //0个人   1单位
-      if (!that.data.name || !that.data.idNumb || !that.data.phoneNumb||!that.data.agreeStatu) {
-        var msg = !that.data.name ? "请输入姓名" : !that.data.idNumb ? "请输入身份证" :!that.data.phoneNumb ? "请输入手机号": !that.data.agreeStatu?"请先阅读并同意协议":"";
-        toast(msg, 'none');
-        return;
-      }
-      wx.setStorageSync('name', that.data.name)
-      wx.setStorageSync('idNumb', that.data.idNumb)
-      wx.setStorageSync('phoneNumb', that.data.phoneNumb)
+    var that = this;
+    var loginInfo = wx.getStorageSync('loginInfo')
+    if (!loginInfo) {
+      //未登录的先登录
+      wx.navigateTo({
+        url: '/pages/index/index',
+      })
+      return;
+    }
+    if (!that.data.name || !that.data.idNumb || !that.data.phoneNumb || !that.data.agreeStatu) {
+      var msg = !that.data.name ? "请输入姓名" : !that.data.idNumb ? "请输入身份证" : !that.data.phoneNumb ? "请输入手机号" : !that.data.agreeStatu ? "请先阅读并同意协议" : "";
+      toast(msg, 'none');
+      return;
+    }
+    wx.setStorageSync('name', that.data.name)
+    wx.setStorageSync('idNumb', that.data.idNumb)
+    wx.setStorageSync('phoneNumb', that.data.phoneNumb)
     var invoice_info = {
       productId: 'credit_query',
       price: '998',
       tradeType: 'JSAPI',
       openId: that.data.openId
     }
-    if (!that.data.flag){
-      toast('提交中','loading');
-      that.setData({ flag:true })
-      Api.wxPay(invoice_info,'',{
-        success:function(res,msg){
+    if (!that.data.flag) {
+      toast('提交中', 'loading');
+      that.setData({
+        flag: true
+      })
+      Api.wxPay(invoice_info, '', {
+        success: function (res, msg) {
           toast(res, 'success');
           that.setData({
-             flag: false,
-             payMap:res.payData
-             })
-             wx.setStorageSync('orderNo',res.orderNo)
+            flag: false,
+            payMap: res.payData
+          })
+          wx.setStorageSync('orderNo', res.orderNo)
           that.wxPay();
         },
-        error:(err,msg)=>{
+        error: (err, msg) => {
           toast(msg, 'none');
-          that.setData({ flag: false })
+          that.setData({
+            flag: false
+          })
         }
       })
     }
@@ -102,12 +120,52 @@ Page({
       url: '/pages/agree/agree'
     })
   },
-    // 同意服务协议
-    agree() {
-      this.setData({
-        agreeStatu: !this.data.agreeStatu
-      })
-    },
+  // 同意服务协议
+  agree() {
+    this.setData({
+      agreeStatu: !this.data.agreeStatu
+    })
+  },
+  getUserProfile(e) {
+    var that = this;
+    wx.getUserProfile({
+      desc: '展示用户信息',
+      success: (res) => {
+        that.setData({
+          userInfo: res.userInfo,
+          loginInfo:res.userInfo,
+          hasUserInfo: true
+        })
+        wx.setStorageSync('loginInfo', res.userInfo)
+        wx.login({
+          success(r) {
+            if (r.code) {
+              that.setData({
+                code: r.code,
+              })
+              Api.login({
+                code: r.code
+              }, '', {
+                success: function (res, msg) {
+                  console.log(res)
+                  wx.setStorageSync('openId', res)
+                  that.setData({
+                    openId:res,
+                  })
+                  that.submit();
+                },
+                error: (err, msg) => {
+                  console.log(e)
+                }
+              })
+
+
+            }
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -125,14 +183,15 @@ Page({
     if (loginInfo) {
       //登录注册过的
       that.setData({
-        openId:openId
+        openId: openId,
+        loginInfo:loginInfo
       })
       // that.wxPay();
     } else {
       //未登录的先登录
-      wx.navigateTo({
-        url: '/pages/index/index',
-      })
+      // wx.navigateTo({
+      //   url: '/pages/index/index',
+      // })
     }
   },
 
@@ -171,6 +230,7 @@ Page({
 
   }
 })
+
 function toast(msg, icon) {
   wx.showToast({
     title: msg,

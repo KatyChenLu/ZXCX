@@ -34,5 +34,7 @@
   <text class="agreeRemind">我已阅读并同意</text>
   <text class="standard" catchtap="goAgree">《报告查询协议》</text>
 </view>
-  <button class='btn' bindtap='submit'>一键查询</button>
+  <button class='btn' bindtap='submit' wx:if="{{loginInfo}}">一键查询</button>
+  <button class="btn" bindtap="getUserProfile" wx:else>授权登录后查询</button>
+
 </view>
